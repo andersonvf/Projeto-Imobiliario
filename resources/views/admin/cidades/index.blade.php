@@ -1,0 +1,1 @@
+@extends('admn.layout.princial')
