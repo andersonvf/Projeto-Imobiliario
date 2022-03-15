@@ -13,6 +13,6 @@ class Cidade extends Model
 
     protected $primaryKey = 'cidadeId';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
 }

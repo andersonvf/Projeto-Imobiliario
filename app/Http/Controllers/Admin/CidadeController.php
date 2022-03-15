@@ -29,7 +29,21 @@ class CidadeController extends Controller
 
     public function formAdicionar()
     {
-        return "Form Adicionar";
+        return view('admin.cidades.form');
+    }
+
+    public function adicionar(Request $request)
+    {
+
+//Criar um objeto do modelo (classe) cidade
+
+        $cidade = new Cidade();
+        $cidade->nome = $request->nome;
+
+        $cidade->save(); //Salva no BD
+
+        return redirect()->route('admin.cidades.listar');
+
     }
 
      public function index()
