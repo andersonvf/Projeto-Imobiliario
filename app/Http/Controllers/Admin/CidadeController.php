@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Cidade;
 
 class CidadeController extends Controller
 {
@@ -17,12 +18,19 @@ class CidadeController extends Controller
         {
             $subtitulo = 'Lista de Cidades';
 
-            $capitais = ['Vitória', 'São Paulo', 'Manaus', 'Curitiba'];
+            //$cidades = ['Vitória', 'São Paulo', 'Manaus', 'Curitiba'];
 
-            return view ('cidades', compact('subtitulo', 'capitais'));
+            $cidades = Cidade::all();
+
+            return view ('admin.cidades.index', compact('subtitulo', 'cidades'));
         }
     }
 
+
+    public function formAdicionar()
+    {
+        return "Form Adicionar";
+    }
 
      public function index()
     {
