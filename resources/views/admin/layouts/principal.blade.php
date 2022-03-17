@@ -35,5 +35,11 @@
     @yield('conteudo-principal')
 </div>
 <script src="{{asset ('js/materialize.min.js') }}"></script>
+<script>
+    @if (session('sucesso'))
+        M.toast({html: "{{ session('sucesso') }}"});
+    @endif
+</script>
+
 </body>
 </html>
