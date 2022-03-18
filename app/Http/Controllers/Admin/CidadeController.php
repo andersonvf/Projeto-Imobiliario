@@ -91,9 +91,19 @@ class CidadeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+
+    public function formEditar($id)
     {
-        //
+        $cidade = Cidade::find($id);
+        $action = route('admin.cidades.editar', $cidade->id);
+
+        return view ('admin.cidades.form', compact('cidade', 'action'));
+    }
+
+
+     public function editar($id)
+    {
+        echo "Editar";
     }
 
     /**
@@ -114,8 +124,10 @@ class CidadeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        Cidade::destroy($id);
+        $request->session()->flash('sucesso','REGISTRO DELETADO');
+        return redirect()->route('admin.cidades.listar');
     }
 }
