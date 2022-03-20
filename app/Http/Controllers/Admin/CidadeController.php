@@ -15,42 +15,12 @@ class CidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function cidades(){
-        {
-            $subtitulo = 'Lista de Cidades';
-
-            //$cidades = ['Vitória', 'São Paulo', 'Manaus', 'Curitiba'];
-
-            $cidades = Cidade::all();
-
-            $cidades = Cidade::paginate(9);
-
-            return view ('admin.cidades.index', compact('subtitulo', 'cidades'));
-        }
-    }
-
-
-    public function formAdicionar()
-    {
-        return view('admin.cidades.form');
-    }
-
-    public function adicionar(CidadeRequest $request)
-    {
-
-//Criar um objeto do modelo (classe) cidade
-
-        Cidade::create($request->all());
-
-        $request->session()->flash('sucesso', "Cidade $request->nome incluída com sucesso!");
-
-        return redirect()->route('admin.cidades.listar');
-
-    }
-
      public function index()
     {
-        //
+        $subtitulo = 'Lista de Cidades';
+        $cidades = Cidade::all();
+        $cidades = Cidade::paginate(9);
+        return view ('admin.cidades.index', compact('subtitulo', 'cidades'));
     }
 
     /**
@@ -60,7 +30,8 @@ class CidadeController extends Controller
      */
     public function create()
     {
-        //
+        $action = route('admin.cidades.store');
+        return view('admin.cidades.form', compact('action'));
     }
 
     /**
@@ -69,9 +40,11 @@ class CidadeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CidadeRequest $request)
     {
-        //
+        Cidade::create($request->all());
+        $request->session()->flash('sucesso', "Cidade $request->nome incluída com sucesso!");
+        return redirect()->route('admin.cidades.index');
     }
 
     /**
@@ -92,18 +65,11 @@ class CidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function formEditar($id)
+    public function edit($id)
     {
         $cidade = Cidade::find($id);
-        $action = route('admin.cidades.editar', $cidade->id);
-
+        $action = route('admin.cidades.update', $cidade->id);
         return view ('admin.cidades.form', compact('cidade', 'action'));
-    }
-
-
-     public function editar($id)
-    {
-        echo "Editar";
     }
 
     /**
@@ -113,9 +79,12 @@ class CidadeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CidadeRequest $request, $id)
     {
-        //
+        $cidade = Cidade::find($id);
+        $cidade->update($request->all());
+        $request->session()->flash('sucesso', "Cidade $request->nome alterada com sucesso!");
+        return redirect()->route('admin.cidades.index');
     }
 
     /**
