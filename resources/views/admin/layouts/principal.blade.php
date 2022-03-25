@@ -18,7 +18,7 @@
                 <a href="/" class="brand-logo">Best Imóveis</a>
                 <ul class="right">
                     <li>
-                        <a href="#">Imóveis</a>
+                        <a href="{{route('admin.imoveis.index')}}">Imóveis</a>
                     </li>
                     <li>
                         <a href="{{route('admin.cidades.index')}}">Cidades</a>
@@ -35,10 +35,17 @@
     @yield('conteudo-principal')
 </div>
 <script src="{{asset ('js/materialize.min.js') }}"></script>
+<script src="{{asset ('js/select.js') }}"></script>
 <script>
     @if (session('sucesso'))
         M.toast({html: "{{ session('sucesso') }}"});
     @endif
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+  });
+
 </script>
 
 </body>

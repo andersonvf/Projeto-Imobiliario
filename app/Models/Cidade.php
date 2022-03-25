@@ -17,4 +17,8 @@ class Cidade extends Model
 
     protected $fillable = ['nome'];
 
+    public function imoveis(){
+        return $this->hasManey(Imoveis::class);
+    }
+
 }
