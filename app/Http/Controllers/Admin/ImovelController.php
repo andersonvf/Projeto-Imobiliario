@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cidade;
 use App\Models\Tipo;
 use App\Models\Finalidade;
+use App\Models\Imovel;
 use Illuminate\Http\Request;
 
 class ImovelController extends Controller
@@ -17,7 +18,8 @@ class ImovelController extends Controller
      */
     public function index()
     {
-        return view ('admin.imoveis.index');
+        $imoveis = Imovel::with(['cidade', 'endereco'])->get();
+        return view ('admin.imoveis.index', compact('imoveis'));
     }
 
     /**
