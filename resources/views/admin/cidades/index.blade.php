@@ -40,10 +40,7 @@
         </tbody>
 
     </table>
-        <!--div class="d-flex justify-content-center"-->
-        <div class="row text-center">
-            {{ $cidades->links()}}
-        </div>
+
 
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large waves-effect waves-ligth" href="{{route('admin.cidades.create')}}">

@@ -11,6 +11,20 @@ class Imovel extends Model
 
     protected $table = "imoveis";
 
+    protected $fillable = [
+        'titulo',
+        'terreno',
+        'salas',
+        'banheiros',
+        'dormitorios',
+        'garagens',
+        'descricao',
+        'preco',
+        'cidade_id',
+        'tipo_id',
+        'finalidade_id'
+    ];
+
     public function endereco(){
         return $this->hasOne(Endereco::class);
     }

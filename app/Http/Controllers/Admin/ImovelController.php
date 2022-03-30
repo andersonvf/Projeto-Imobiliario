@@ -7,7 +7,9 @@ use App\Models\Cidade;
 use App\Models\Tipo;
 use App\Models\Finalidade;
 use App\Models\Imovel;
+use App\Models\Proximidade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ImovelController extends Controller
 {
@@ -18,6 +20,13 @@ class ImovelController extends Controller
      */
     public function index()
     {
+/*         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id')
+        ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id')
+        ->orderBy('cidades.nome', 'asc')
+        ->orderBy('enderecos.bairro', 'asc')
+        ->orderBy('titulo', 'asc')
+        ->get(); */
+
         $imoveis = Imovel::with(['cidade', 'endereco'])->get();
         return view ('admin.imoveis.index', compact('imoveis'));
     }
@@ -32,8 +41,10 @@ class ImovelController extends Controller
         $cidades = Cidade::all();
         $tipos = Tipo::all();
         $finalidades = Finalidade::all();
+        $proximidades = Proximidade::all();
+
         $action = route('admin.imoveis.store');
-        return view ('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades'));
+        return view ('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
     }
 
     /**
@@ -44,7 +55,19 @@ class ImovelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::beginTransaction();
+
+        $imovel = Imovel::create($request->all());
+        $imovel->endereco()->create($request->all());
+
+        if($request->has('proximidades')){
+            $imovel->proximidades()->sync($request->proximidades);
+        }
+
+        DB::Commit();
+
+        $request->session()->flash('sucesso', "Imovel incluída com sucesso!");
+        return redirect()->route('admin.imoveis.index');
     }
 
     /**

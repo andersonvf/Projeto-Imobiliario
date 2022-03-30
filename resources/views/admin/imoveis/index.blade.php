@@ -33,7 +33,7 @@
         <!--div class="d-flex justify-content-center"-->
 
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large waves-effect waves-ligth" href="{{route('admin.cidades.create')}}">
+        <a class="btn-floating btn-large waves-effect waves-ligth" href="{{route('admin.imoveis.create')}}">
             <i class="large material-icons">add</i>
         </a>
     </div>
