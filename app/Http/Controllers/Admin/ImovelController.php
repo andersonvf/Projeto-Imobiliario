@@ -8,6 +8,7 @@ use App\Models\Tipo;
 use App\Models\Finalidade;
 use App\Models\Imovel;
 use App\Models\Proximidade;
+use App\Http\Requests\ImovelRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -53,7 +54,7 @@ class ImovelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ImovelRequest $request)
     {
         DB::beginTransaction();
 
