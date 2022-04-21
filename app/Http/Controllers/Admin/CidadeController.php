@@ -96,6 +96,6 @@ class CidadeController extends Controller
     {
         Cidade::destroy($id);
         $request->session()->flash('sucesso','REGISTRO DELETADO');
-        return redirect()->route('admin.cidades.listar');
+        return redirect()->route('admin.cidades.index');
     }
 }
