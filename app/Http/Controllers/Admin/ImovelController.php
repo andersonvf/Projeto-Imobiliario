@@ -90,7 +90,16 @@ class ImovelController extends Controller
      */
     public function edit($id)
     {
-        //
+        $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
+
+        $cidades = Cidade::all();
+        $tipos = Tipo::all();
+        $finalidades = Finalidade::all();
+        $proximidades = Proximidade::all();
+
+        $action = route('admin.imoveis.update', $imovel->id);
+        return view ('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
+
     }
 
     /**

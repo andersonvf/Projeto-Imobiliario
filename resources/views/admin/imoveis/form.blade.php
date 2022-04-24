@@ -8,7 +8,7 @@
             @csrf
         <div class="row">
             <div class="input-field col s12">
-                <input type="text" name="titulo" id="titulo" value="{{ old('titulo')}}"/>
+                <input type="text" name="titulo" id="titulo" value="{{ old('titulo', $imovel->titulo ?? '')}}"/>
                 <label for="titulo">Título</label>
                 @error('titulo')
                 <span class="red-text text-accent-3"><small>{{$message}}</small></span>
