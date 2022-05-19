@@ -21,7 +21,7 @@ class ImovelController extends Controller
      */
     public function index()
     {
-/*         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id')
+        /*         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id')
         ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id')
         ->orderBy('cidades.nome', 'asc')
         ->orderBy('enderecos.bairro', 'asc')
@@ -29,7 +29,7 @@ class ImovelController extends Controller
         ->get(); */
 
         $imoveis = Imovel::with(['cidade', 'endereco'])->get();
-        return view ('admin.imoveis.index', compact('imoveis'));
+        return view('admin.imoveis.index', compact('imoveis'));
     }
 
     /**
@@ -45,7 +45,7 @@ class ImovelController extends Controller
         $proximidades = Proximidade::all();
 
         $action = route('admin.imoveis.store');
-        return view ('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
+        return view('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
     }
 
     /**
@@ -61,7 +61,7 @@ class ImovelController extends Controller
         $imovel = Imovel::create($request->all());
         $imovel->endereco()->create($request->all());
 
-        if($request->has('proximidades')){
+        if ($request->has('proximidades')) {
             $imovel->proximidades()->sync($request->proximidades);
         }
 
@@ -79,7 +79,8 @@ class ImovelController extends Controller
      */
     public function show($id)
     {
-        //
+        $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
+        return view ('admin.imoveis.show', compact('imovel'));
     }
 
     /**
@@ -98,8 +99,7 @@ class ImovelController extends Controller
         $proximidades = Proximidade::all();
 
         $action = route('admin.imoveis.update', $imovel->id);
-        return view ('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
-
+        return view('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
     }
 
     /**
@@ -131,7 +131,7 @@ class ImovelController extends Controller
 
         DB::commit();
 
-        $request->session()->flash('sucesso','REGISTRO DELETADO');
+        $request->session()->flash('sucesso', 'REGISTRO DELETADO');
         return redirect()->route('admin.imoveis.index');
     }
 }

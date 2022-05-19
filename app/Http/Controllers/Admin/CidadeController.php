@@ -15,11 +15,11 @@ class CidadeController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function index()
+    public function index()
     {
         $subtitulo = 'Lista de Cidades';
         $cidades = Cidade::orderBy('nome', 'asc')->get();
-        return view ('admin.cidades.index', compact('subtitulo', 'cidades'));
+        return view('admin.cidades.index', compact('subtitulo', 'cidades'));
     }
 
     /**
@@ -68,7 +68,7 @@ class CidadeController extends Controller
     {
         $cidade = Cidade::find($id);
         $action = route('admin.cidades.update', $cidade->id);
-        return view ('admin.cidades.form', compact('cidade', 'action'));
+        return view('admin.cidades.form', compact('cidade', 'action'));
     }
 
     /**
@@ -95,7 +95,7 @@ class CidadeController extends Controller
     public function destroy($id, Request $request)
     {
         Cidade::destroy($id);
-        $request->session()->flash('sucesso','REGISTRO DELETADO');
+        $request->session()->flash('sucesso', 'REGISTRO DELETADO');
         return redirect()->route('admin.cidades.index');
     }
 }
