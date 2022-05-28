@@ -21,12 +21,7 @@ class ImovelController extends Controller
      */
     public function index()
     {
-        /*         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id')
-        ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id')
-        ->orderBy('cidades.nome', 'asc')
-        ->orderBy('enderecos.bairro', 'asc')
-        ->orderBy('titulo', 'asc')
-        ->get(); */
+
 
         $imoveis = Imovel::with(['cidade', 'endereco'])->get();
         return view('admin.imoveis.index', compact('imoveis'));
@@ -80,7 +75,7 @@ class ImovelController extends Controller
     public function show($id)
     {
         $imovel = Imovel::with(['cidade', 'endereco', 'finalidade', 'tipo', 'proximidades'])->find($id);
-        return view ('admin.imoveis.show', compact('imovel'));
+        return view('admin.imoveis.show', compact('imovel'));
     }
 
     /**
@@ -99,7 +94,7 @@ class ImovelController extends Controller
         $proximidades = Proximidade::all();
 
         $action = route('admin.imoveis.update', $imovel->id);
-        return view('admin.imoveis.form', compact('action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
+        return view('admin.imoveis.form', compact('imovel', 'action', 'cidades', 'tipos', 'finalidades', 'proximidades'));
     }
 
     /**
@@ -109,9 +104,21 @@ class ImovelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ImovelRequest $request, $id)
     {
-        //
+        $imovel = Imovel::find($id);
+
+        $imovel->update($request->all());
+        $imovel->endereco->update($request->all());
+
+        if ($request->has('proximidades')) {
+            $imovel->proximidades()->sync($request->proximidades);
+        }
+
+        DB::commit();
+
+        $request->session()->flash('sucesso', "Imóvel atualizado com sucesso!");
+        return redirect()->route('admin.imoveis.index');
     }
 
     /**

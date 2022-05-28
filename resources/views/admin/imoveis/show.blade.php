@@ -48,8 +48,8 @@
             </span>
 
             <span class="col s4">
-                <h5>Dormitórios</h5>
-                <p>{{ $imovel->dormitorios }}</p>
+                <h5>Complemento</h5>
+                <p>{{ $imovel->endereco->complemento }}</p>
             </span>
 
             <span class="col s4">
