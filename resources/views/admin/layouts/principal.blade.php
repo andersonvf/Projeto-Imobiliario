@@ -8,9 +8,10 @@
     <title>Best Imóveis</title>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/materialize.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/materialize.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fotos.css') }}">
     {{-- menu topo --}}
-    <link ref="stylesheet" href="{{ asset('css/fotos.css') }}">
+
 </head>
 
 <body>

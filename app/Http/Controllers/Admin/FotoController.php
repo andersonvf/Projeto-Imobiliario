@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Imovel;
 use App\Models\Foto;
 use Illuminate\Http\Request;
+use App\Http\Requests\FotoRequest;
+use Illuminate\Support\Facades\Storage;
 
 class FotoController extends Controller
 {
@@ -41,7 +43,7 @@ class FotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $idImovel)
+    public function store(FotoRequest $request, $idImovel)
     {
 
         if ($request->hasFile('foto')) {
@@ -64,8 +66,17 @@ class FotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $idImovel, $idFoto)
     {
-        //
+        $foto = Foto::find($idFoto);
+
+        //Apagar foto da pasta
+        Storage::disk('public')->delete($foto->url);
+
+        //Apagando registro
+        $foto->delete();
+
+        $request->session()->flash('sucesso', 'Foto excluída com sucesso!');
+        return redirect('admin.imoveis.fotos.index', $idImovel);
     }
 }
